@@ -683,6 +683,11 @@ static int rtp_parse_packet_internal(RTPDemuxContext *s, AVPacket *pkt,
 
         if (len < ext)
             return -1;
+
+        av_free(s->header_extension);
+        s->header_extension = av_memdup(buf, ext);
+        s->header_extension_len = ext;
+
         // skip past RTP header extension
         len -= ext;
         buf += ext;
@@ -883,6 +888,7 @@ void ff_rtp_parse_close(RTPDemuxContext *s)
 {
     ff_rtp_reset_packet_queue(s);
     ff_srtp_free(&s->srtp);
+    av_free(s->header_extension);
     av_free(s);
 }
 

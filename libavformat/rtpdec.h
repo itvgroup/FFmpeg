@@ -189,6 +189,10 @@ struct RTPDemuxContext {
     /* dynamic payload stuff */
     const RTPDynamicProtocolHandler *handler;
     PayloadContext *dynamic_protocol_context;
+
+    /* header extension (RFC 3550 Section 5.3.1) */
+    uint8_t *header_extension;
+    int header_extension_len;
 };
 
 /**
